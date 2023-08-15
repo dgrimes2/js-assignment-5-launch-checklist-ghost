@@ -51,11 +51,9 @@ function formSubmission (document, list, pilot, copilot, fuelLevel, cargoLevel) 
     (validateInput(fuelLevel) === "Empty") || (validateInput(cargoLevel) === "Empty")) {
         window.alert("\nIt is required to fill ALL fields!");
     // if the first two fields receive non strings
-    } else if((validateInput(pilot) === "Is a Number") || (validateInput(copilot) === "Is a Number")) {
-        window.alert("\nOnly enter non-number entries for Pilot and/or Co-pilot Name!");
-    // if the second two fields receive non numbers
-    } else if((validateInput(fuelLevel) === "Not a Number") || (validateInput(cargoLevel) === "Not a Number")) {
-    window.alert("\nOnly enter numeric entries for Fuel Level and/or Cargo Mass!");
+    } else if((validateInput(pilot) === "Is a Number") || (validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number") || (validateInput(cargoLevel) === "Not a Number")) {
+        window.alert("\nOnly enter valid entries in each field!");
+    
     } else {
         // level limits: fuelLevel/fuelStatus < 10000 & cargoMass/cargoStatus > 10000
         // for bottom status box, I want the two pilot statuses to always? show
@@ -65,22 +63,30 @@ function formSubmission (document, list, pilot, copilot, fuelLevel, cargoLevel) 
         }
     // shuttle level limits: fuelLevel/fuelStatus < 10000 & cargoMass/cargoStatus > 10000 are BAD
     // for bottom status box, I want the two pilot statuses to always? show
-        if (cargoLevel > 10000) {
-            list.style.visibility = "visible";
-            cargoStatus.innerHTML = `Cargo mass is too heavy for launch`;
-            launchStatus.innerHTML = `Shuttle not ready for launch`;
-            launchStatus.style.color = "rgb(199, 37, 78)";
-        } else if (fuelLevel < 10000) {
-            list.style.visibility = "visible";
-            fuelStatus.innerHTML = "Fuel level too low for trip";
-            launchStatus.innerHTML = "Shuttle not ready for launch";
-            launchStatus.style.color = "rgb(199, 37, 78)";
-        } else if (fuelLevel >= 10000 && cargoLevel <= 10000) {
+        if (fuelLevel >= 10000 && cargoLevel > 10000) {
             list.style.visibility = "visible";
             fuelStatus.innerHTML = "Fuel level high enough for launch";
-            cargoStatus.innerHTML = "Cargo mass low enough for launch";
-            launchStatus.innerHTML = "Shuttle is ready for launch!";
-            launchStatus.style.color = "rgb(65, 159, 106)";
+            cargoStatus.innerHTML = "Cargo mass is too heavy for launch";
+            launchStatus.innerHTML = "Shuttle not ready for launch";
+            launchStatus.style.color = "rgb(199, 37, 78)";
+        } else if (fuelLevel < 10000 && cargoLevel <= 10000) {
+                list.style.visibility = "visible";
+                fuelStatus.innerHTML = "Fuel level too low for trip";
+                cargoStatus.innerHTML = "Cargo mass low enough for launch";
+                launchStatus.innerHTML = "Shuttle not ready for launch";
+                launchStatus.style.color = "rgb(199, 37, 78)";
+        } else if (fuelLevel < 10000 && cargoLevel > 10000) {
+                list.style.visibility = "visible";
+                fuelStatus.innerHTML = "Fuel level too low for trip";
+                cargoStatus.innerHTML = "Cargo mass is too heavy for launch";
+                launchStatus.innerHTML = "Shuttle not ready for launch";
+                launchStatus.style.color = "rgb(199, 37, 78)";
+        } else if (fuelLevel >= 10000 && cargoLevel <= 10000) {
+                list.style.visibility = "visible";
+                fuelStatus.innerHTML = "Fuel level high enough for launch";
+                cargoStatus.innerHTML = "Cargo mass low enough for launch";
+                launchStatus.innerHTML = "Shuttle is ready for launch!";
+                launchStatus.style.color = "rgb(65, 159, 106)";
         }
 
 }
